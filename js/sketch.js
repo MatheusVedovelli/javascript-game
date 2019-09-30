@@ -13,6 +13,11 @@ function setup()
 	player.startPos();
 }
 
+function mousePressed()
+{
+	console.log("teste");
+}
+
 function keyPressed()
 {
 	if(keyCode == UP_ARROW)
