@@ -1,9 +1,16 @@
 var player;
 
+function preload()
+{
+	player = new Player();
+	player.imgLoad();
+}
+
 function setup()
 {
-	createCanvas(800, 600);
-	player = new Player(60, 130, (width - 60) / 2, height - 130);
+	createCanvas(800, 600, WEBGL);
+	frameRate(30); // limita a 30fps
+	player.startPos();
 }
 
 function keyPressed()
@@ -14,14 +21,15 @@ function keyPressed()
 
 function draw()
 {
-	rect(1, 0, width-1, height);
+	translate(-(width/2), -(height/2));
+	rect(1, 0, width-1, height - 1);
 
 	if(keyIsDown(LEFT_ARROW))
 		player.move(LEFT_ARROW);
-
-	if(keyIsDown(RIGHT_ARROW))
+	else if(keyIsDown(RIGHT_ARROW))
 		player.move(RIGHT_ARROW);
+	else
+		player.move(0);
 
 	player.drawPlayer();
-	player.gravity();
 }

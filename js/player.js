@@ -1,31 +1,61 @@
 class Player
 {
-	constructor(playerw, playerh, startx, starty) // cria o player
+	constructor() // cria o player
 	{
-		this.width = playerw;
-		this.height = playerh;
-		this.x = startx;
-		this.y = starty;
+		this.width = 300 * 0.5;
+		this.height = 485 * 0.5;
+		this.x = (width - this.width) / 2;
+		this.y = (height - this.height);
 		this.yspeed = 0;
-		this.gforce = 1;
-		this.movespeed = 5;
+		this.gforce = 4;
+		this.movespeed = 10;
+		this.idle = [];
+		this.jumping = [];
+		this.running = [];
+		this.isMoving = 0;
 	}
 
-	jump()
+	startPos() // reseta a posição do personagem
 	{
-		console.log(this.yspeed);
-		if(this.y == height - this.height)
-			this.yspeed = -20;
+		this.x = (width - this.width) / 2;
+		this.y = (height - this.height);
 	}
 
-	move(side)
+	imgLoad() // carrega as imagens
+	{
+		for(var i = 0; i < 15; i++)
+		{
+			this.idle[i] = loadImage("img/player/Idle (" + (i + 1) + ").png");
+			this.jumping[i] = loadImage("img/player/Jump (" + (i + 1) + ").png");
+			this.running[i] = loadImage("img/player/Run (" + (i + 1) + ").png");
+		}
+	}
+
+	jump() // pula
+	{
+		if(this.y == height - this.height)
+		{
+			this.yspeed = -40;
+			this.isMoving = 1;
+		}
+	}
+
+	move(side) // move pra esquerda e direita
 	{
 		if(side == LEFT_ARROW)
+		{
 			this.x -= this.movespeed;
+			this.isMoving = -1;
+		}
 		else if(side == RIGHT_ARROW)
+		{
 			this.x += this.movespeed;
+			this.isMoving = 1;
+		}
+		else if(this.isMoving == 1 || this.isMoving == -1)
+			this.isMoving = 0;
 
-		if(this.x +  this.width > width)
+		if(this.x + Math.abs(this.width) > width)
 			this.x = width - this.width;
 
 		if(this.x < 0)
@@ -34,17 +64,36 @@ class Player
 
 	drawPlayer() // printa o player na tela
 	{
-		rect(this.x, this.y, this.width, this.height);
+		push();
+		var currentFrame = this.idle[frameCount%15];
+
+		if(this.isMoving == 1 || this.isMoving == -1)
+		{
+			currentFrame = this.running[frameCount%15];
+
+			// gambiarra teste
+			if(this.isMoving == -1 && this.width > 0)
+			{
+				this.width *= -1;
+			}
+			else if(this.isMoving == 1 && this.width < 0)
+			{
+				this.width *= -1;
+			}
+		}
+		console.log(this.width);
+		image(currentFrame, this.x, this.y, this.width, this.height, 0, 25, 300, 485);
+		pop();
+
+		this.gravity();
 	}
 
 	gravity() // aplica os efeitos de gravidade ao player
 	{
 		this.y += this.yspeed;
+		this.yspeed += this.gforce;
+		this.y += this.gforce;
 
-		if(this.yspeed < 10)
-			this.yspeed += this.gforce;
-
-		if(this.y + this.height > height)
-			this.y = height - this.height;
+		this.y = constrain(this.y, 0, height- this.height);
 	}
 }
