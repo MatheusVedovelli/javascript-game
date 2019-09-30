@@ -56,7 +56,7 @@ class Player
 			this.isMoving = 0;
 
 		if(this.x + Math.abs(this.width) > width)
-			this.x = width - this.width;
+			this.x = width - Math.abs(this.width);
 
 		if(this.x < 0)
 			this.x = 0;
@@ -71,7 +71,6 @@ class Player
 		{
 			currentFrame = this.running[frameCount%15];
 
-			// gambiarra teste
 			if(this.isMoving == -1 && this.width > 0)
 			{
 				this.width *= -1;
@@ -81,8 +80,7 @@ class Player
 				this.width *= -1;
 			}
 		}
-		console.log(this.width);
-		image(currentFrame, this.x, this.y, this.width, this.height, 0, 25, 300, 485);
+		image(currentFrame, this.width > 0 ? this.x : this.x + Math.abs(this.width), this.y, this.width, this.height, 0, 25, 300, 485);
 		pop();
 
 		this.gravity();
