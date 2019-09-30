@@ -31,8 +31,19 @@ class Player
 		}
 	}
 
-	jump() // pula
+	collide(...structures)
 	{
+		for(var i = 0; i < structures.length; i++)
+			console.log(structures[i]);
+
+		return false;
+	}
+
+	jump(...structures) // pula
+	{
+		if(this.collide(structures))
+			return;
+
 		if(this.y == height - this.height)
 		{
 			this.yspeed = -40;
@@ -40,7 +51,7 @@ class Player
 		}
 	}
 
-	move(side) // move pra esquerda e direita
+	move(side,...structures) // move pra esquerda e direita
 	{
 		if(side == LEFT_ARROW)
 		{

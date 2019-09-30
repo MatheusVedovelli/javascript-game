@@ -1,4 +1,5 @@
 var player;
+var structures = [];
 
 function preload()
 {
@@ -11,17 +12,28 @@ function setup()
 	createCanvas(800, 600, WEBGL);
 	frameRate(30); // limita a 30fps
 	player.startPos();
+	//structures.push(new Structure(10, 10, 50, 100));
 }
+
+var startX = 0;
+var startY = 0;
 
 function mousePressed()
 {
-	console.log("teste");
+	startX = mouseX;
+	startY = mouseY;
+}
+
+function mouseReleased()
+{
+	if(startX != mouseX && startY != mouseY)
+		structures.push(new Structure(startX, startY, mouseX - startX, mouseY - startY));		
 }
 
 function keyPressed()
 {
 	if(keyCode == UP_ARROW)
-		player.jump();
+		player.jump(structures);
 }
 
 function draw()
@@ -30,11 +42,14 @@ function draw()
 	rect(1, 0, width-1, height - 1);
 
 	if(keyIsDown(LEFT_ARROW))
-		player.move(LEFT_ARROW);
+		player.move(LEFT_ARROW, structures);
 	else if(keyIsDown(RIGHT_ARROW))
-		player.move(RIGHT_ARROW);
+		player.move(RIGHT_ARROW, structures);
 	else
-		player.move(0);
+		player.move(0, structures);
+	
+	for(var i = 0; i < structures.length; i++)
+		structures[i].drawStructure();
 
 	player.drawPlayer();
 }
