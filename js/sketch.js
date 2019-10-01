@@ -33,7 +33,7 @@ function mouseReleased()
 function keyPressed()
 {
 	if(keyCode == UP_ARROW)
-		player.jump(structures);
+		player.jump();
 }
 
 function draw()
@@ -42,11 +42,11 @@ function draw()
 	rect(1, 0, width-1, height - 1);
 
 	if(keyIsDown(LEFT_ARROW))
-		player.move(LEFT_ARROW, structures);
+		player.move(LEFT_ARROW);
 	else if(keyIsDown(RIGHT_ARROW))
-		player.move(RIGHT_ARROW, structures);
+		player.move(RIGHT_ARROW);
 	else
-		player.move(0, structures);
+		player.move(0);
 	
 	for(var i = 0; i < structures.length; i++)
 		structures[i].drawStructure();
