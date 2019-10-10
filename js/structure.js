@@ -13,3 +13,5 @@ class Structure
         rect(this.x, this.y, this.width, this.height);
     }
 }
+
+var structures = [];

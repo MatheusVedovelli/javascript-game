@@ -35,21 +35,50 @@ class Player
 	{
 		if(this.y == height - this.height)
 		{
-			this.yspeed = -40;
+			if(this.collide() != 3)
+				this.yspeed = -40;
 			this.isMoving = 1;
 		}
+	}
+
+	collide()
+	{
+		for(var i = 0; i < structures.length; i++)
+		{
+			if(collideRectRect(this.x, this.y, this.width, this.height, structures[i].x, structures[i].y, structures[i].width, structures[i].height))
+			{
+				if(structures[i].x >= this.x)
+				{
+					if(structures[i].y >= this.y)
+						return 3;
+
+					return 1;
+				}
+				else if(structures[i].x < this.x)
+				{
+					if(structures[i].y >= this.y)
+						return 3;
+						
+					return 2;
+				}
+			}
+		}
+		return false;
 	}
 
 	move(side) // move pra esquerda e direita
 	{
 		if(side == LEFT_ARROW)
 		{
-			this.x -= this.movespeed;
+			if(!this.collide())
+				this.x -= this.movespeed;
+
 			this.isMoving = -1;
 		}
 		else if(side == RIGHT_ARROW)
 		{
-			this.x += this.movespeed;
+			if(!this.collide())
+				this.x += this.movespeed;
 			this.isMoving = 1;
 		}
 		else if(this.isMoving == 1 || this.isMoving == -1)
@@ -64,6 +93,8 @@ class Player
 
 	drawPlayer() // printa o player na tela
 	{
+		rect(this.width > 0 ? this.x : this.x + Math.abs(this.width), this.y, this.width, this.height, 0, 25, 300, 485);
+		
 		push();
 		var currentFrame = this.idle[frameCount%15];
 

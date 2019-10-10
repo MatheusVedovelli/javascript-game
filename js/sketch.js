@@ -1,5 +1,4 @@
 var player;
-var structures = [];
 
 function preload()
 {
@@ -38,6 +37,7 @@ function keyPressed()
 
 function draw()
 {
+	clear();
 	translate(-(width/2), -(height/2));
 	rect(1, 0, width-1, height - 1);
 
@@ -46,7 +46,7 @@ function draw()
 	else if(keyIsDown(RIGHT_ARROW))
 		player.move(RIGHT_ARROW);
 	else
-		player.move(0);
+		player.move(0, structures);
 	
 	for(var i = 0; i < structures.length; i++)
 		structures[i].drawStructure();
