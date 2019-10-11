@@ -4,7 +4,7 @@ class Player
 	{
 		this.width = 300 * 0.5;
 		this.height = 485 * 0.5;
-		this.x = (width - this.width) / 2;
+		this.x = 50//(width - this.width) / 2;
 		this.y = (height - this.height);
 		this.yspeed = 0;
 		this.gforce = 4;
@@ -17,7 +17,7 @@ class Player
 
 	startPos() // reseta a posição do personagem
 	{
-		this.x = (width - this.width) / 2;
+		this.x = 50//(width - this.width) / 2;
 		this.y = (height - this.height);
 	}
 
@@ -36,13 +36,14 @@ class Player
 		if(this.y == height - this.height)
 		{
 			if(this.collide() != 3)
-				this.yspeed = -40;
-			this.isMoving = 1;
+				this.yspeed = -45;
+			//this.isMoving = 1;
 		}
 	}
 
 	collide()
 	{
+		return 0;
 		for(var i = 0; i < structures.length; i++)
 		{
 			if(collideRectRect(this.x, this.y, this.width, this.height, structures[i].x, structures[i].y, structures[i].width, structures[i].height))
@@ -63,12 +64,12 @@ class Player
 				}
 			}
 		}
-		return false;
+		return 0;
 	}
 
 	move(side) // move pra esquerda e direita
 	{
-		if(side == LEFT_ARROW)
+		/*if(side == LEFT_ARROW)
 		{
 			if(!this.collide())
 				this.x -= this.movespeed;
@@ -88,11 +89,12 @@ class Player
 			this.x = width - Math.abs(this.width);
 
 		if(this.x < 0)
-			this.x = 0;
+			this.x = 0;*/
 	}
 
 	drawPlayer() // printa o player na tela
 	{
+		noFill();
 		rect(this.width > 0 ? this.x : this.x + Math.abs(this.width), this.y, this.width, this.height, 0, 25, 300, 485);
 		
 		push();
