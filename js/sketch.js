@@ -1,35 +1,26 @@
-var player;
-var background;
+let player;
+let imgbg;
+let elapsed;
+var obstaculos = [];
 
 function preload()
 {
 	player = new Player();
 	player.imgLoad();
-	background = loadImage("img/background.png");
+	imgbg = loadImage("img/background.png");
 }
 
 function setup()
 {
-	createCanvas(800, 600, WEBGL);
+	createCanvas(windowWidth-20, 600, WEBGL);
 	frameRate(30); // limita a 30fps
 	player.startPos();
-	//structures.push(new Structure(10, 10, 50, 100));
+	elapsed = (new Date()).getMilliseconds();
 }
-
-var startX = 0;
-var startY = 0;
 
 function mousePressed()
 {
-	//startX = mouseX;
-	//startY = mouseY;
 	structures.push(new Structure(mouseX, height-100, 50, 100));
-}
-
-function mouseReleased()
-{
-	//if(startX != mouseX && startY != mouseY)
-	//	structures.push(new Structure(startX, startY, mouseX - startX, mouseY - startY));		
 }
 
 function keyPressed()
@@ -43,25 +34,17 @@ function draw()
 	clear();
 	translate(-(width/2), -(height/2));
 	rect(1, 0, width-1, height - 1);
-	image(background, 0, 0, width, height);
-
-	if(keyIsDown(LEFT_ARROW))
-		player.move(LEFT_ARROW);
-	else if(keyIsDown(RIGHT_ARROW))
-		player.move(RIGHT_ARROW);
-	else
-		player.move(0, structures);
+	image(imgbg, 0, 0, width, height);
 	
 	for(var i = 0; i < structures.length; i++)
 	{
 		structures[i].drawStructure();
-		structures[i].x-= 5;
+		structures[i].x-= 15;
 		if(structures[i].x+structures[i].width<0)
-		{
 			structures.splice(i,1);
-			console.log(structures);
-		}
 	}
 
-	player.drawPlayer();
+	let current = (new Date()).getMilliseconds();
+	player.drawPlayer(current - elapsed);
+	elapsed = current;
 }

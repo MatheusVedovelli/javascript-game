@@ -2,17 +2,16 @@ class Player
 {
 	constructor() // cria o player
 	{
-		this.width = 300 * 0.5;
-		this.height = 485 * 0.5;
+		this.width = 104;
+		this.height = 120;
 		this.x = 50//(width - this.width) / 2;
 		this.y = (height - this.height);
 		this.yspeed = 0;
 		this.gforce = 4;
 		this.movespeed = 10;
 		this.idle = [];
-		this.jumping = [];
-		this.running = [];
 		this.isMoving = 0;
+		this.frameIndex = 0;
 	}
 
 	startPos() // reseta a posição do personagem
@@ -23,11 +22,10 @@ class Player
 
 	imgLoad() // carrega as imagens
 	{
-		for(var i = 0; i < 15; i++)
+		for(var i = 0; i < 6; i++)
 		{
-			this.idle[i] = loadImage("img/player/Idle (" + (i + 1) + ").png");
-			this.jumping[i] = loadImage("img/player/Jump (" + (i + 1) + ").png");
-			this.running[i] = loadImage("img/player/Run (" + (i + 1) + ").png");
+			this.idle[i] = loadImage("img/player/movimento" + (i + 1) + ".png");
+			this.idle[i].frameTime = 0;
 		}
 	}
 
@@ -35,87 +33,33 @@ class Player
 	{
 		if(this.y == height - this.height)
 		{
-			if(this.collide() != 3)
-				this.yspeed = -45;
-			//this.isMoving = 1;
+			this.yspeed = -45;
 		}
 	}
 
-	collide()
-	{
-		return 0;
-		for(var i = 0; i < structures.length; i++)
-		{
-			if(collideRectRect(this.x, this.y, this.width, this.height, structures[i].x, structures[i].y, structures[i].width, structures[i].height))
-			{
-				if(structures[i].x >= this.x)
-				{
-					if(structures[i].y >= this.y)
-						return 3;
-
-					return 1;
-				}
-				else if(structures[i].x < this.x)
-				{
-					if(structures[i].y >= this.y)
-						return 3;
-						
-					return 2;
-				}
-			}
-		}
-		return 0;
-	}
-
-	move(side) // move pra esquerda e direita
-	{
-		/*if(side == LEFT_ARROW)
-		{
-			if(!this.collide())
-				this.x -= this.movespeed;
-
-			this.isMoving = -1;
-		}
-		else if(side == RIGHT_ARROW)
-		{
-			if(!this.collide())
-				this.x += this.movespeed;
-			this.isMoving = 1;
-		}
-		else if(this.isMoving == 1 || this.isMoving == -1)
-			this.isMoving = 0;
-
-		if(this.x + Math.abs(this.width) > width)
-			this.x = width - Math.abs(this.width);
-
-		if(this.x < 0)
-			this.x = 0;*/
-	}
-
-	drawPlayer() // printa o player na tela
+	drawPlayer(elapsedTime) // printa o player na tela
 	{
 		noFill();
-		rect(this.width > 0 ? this.x : this.x + Math.abs(this.width), this.y, this.width, this.height, 0, 25, 300, 485);
-		
-		push();
-		var currentFrame = this.idle[frameCount%15];
+		//rect(this.x, this.y, this.width, this.height, 0, 25, 300, 485);
 
-		if(this.isMoving == 1 || this.isMoving == -1)
+
+		let currentFrame = this.idle[this.frameIndex%this.idle.length];
+
+		if(elapsedTime > 0)
 		{
-			currentFrame = this.running[frameCount%15];
-
-			if(this.isMoving == -1 && this.width > 0)
+			currentFrame.frameTime += elapsedTime;
+			if(currentFrame.frameTime > (1000/this.idle.length))
 			{
-				this.width *= -1;
-			}
-			else if(this.isMoving == 1 && this.width < 0)
-			{
-				this.width *= -1;
+				currentFrame.frameTime = 0;
+				this.frameIndex++;
+				currentFrame = this.idle[this.frameIndex%this.idle.length];
 			}
 		}
-		image(currentFrame, this.width > 0 ? this.x : this.x + Math.abs(this.width), this.y, this.width, this.height, 0, 25, 300, 485);
-		pop();
 
+		this.width = currentFrame.width;
+		this.height = currentFrame.height;
+
+		image(currentFrame, this.x, this.y, this.width, this.height);
 		this.gravity();
 	}
 
