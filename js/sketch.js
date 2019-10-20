@@ -1,11 +1,12 @@
 let player;
+let game;
 let imgbg;
 let elapsed;
-var obstaculos = [];
 
 function preload()
 {
 	player = new Player();
+	game = new Game();
 	player.imgLoad();
 	imgbg = loadImage("img/background.png");
 }
@@ -20,7 +21,6 @@ function setup()
 
 function mousePressed()
 {
-	structures.push(new Structure(mouseX, height-100, 50, 100));
 }
 
 function keyPressed()
@@ -31,20 +31,15 @@ function keyPressed()
 
 function draw()
 {
+	//noLoop();
 	clear();
 	translate(-(width/2), -(height/2));
 	rect(1, 0, width-1, height - 1);
 	image(imgbg, 0, 0, width, height);
-	
-	for(var i = 0; i < structures.length; i++)
-	{
-		structures[i].drawStructure();
-		structures[i].x-= 15;
-		if(structures[i].x+structures[i].width<0)
-			structures.splice(i,1);
-	}
 
 	let current = (new Date()).getMilliseconds();
 	player.drawPlayer(current - elapsed);
+	game.mainGame(current - elapsed);
+	game.drawGame();
 	elapsed = current;
 }

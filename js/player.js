@@ -12,6 +12,7 @@ class Player
 		this.idle = [];
 		this.isMoving = 0;
 		this.frameIndex = 0;
+		this.startTime = (new Date()).getMilliseconds();
 	}
 
 	startPos() // reseta a posição do personagem

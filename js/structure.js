@@ -1,17 +1,19 @@
 class Structure
 {
-    constructor(sx, sy, swidth, sheight)
+    constructor(image)
     {
-        this.x = sx;
-        this.y = sy;
-        this.width = swidth;
-        this.height = sheight;
+        this.x = width - image.width;
+        this.y = height - image.height;
+        this.img = image;
+    }
+
+    main()
+    {
+        this.x -= 20;
     }
 
     drawStructure()
     {
-        rect(this.x, this.y, this.width, this.height);
+        image(this.img, this.x, this.y);
     }
 }
-
-var structures = [];
