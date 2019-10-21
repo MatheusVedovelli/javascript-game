@@ -8,7 +8,6 @@ class Player
 		this.y = (height - this.height);
 		this.yspeed = 0;
 		this.gforce = 4;
-		this.movespeed = 10;
 		this.idle = [];
 		this.isMoving = 0;
 		this.frameIndex = 0;
@@ -32,10 +31,23 @@ class Player
 
 	jump() // pula
 	{
-		if(this.y == height - this.height)
+		if(this.y + this.height == height)
 		{
 			this.yspeed = -45;
 		}
+		else console.log(this.y+ this.height, height);
+	}
+
+	reset()
+	{
+		this.width = 104;
+		this.height = 120;
+		this.x = 50//(width - this.width) / 2;
+		this.y = (height - this.height);
+		this.yspeed = 0;
+		this.isMoving = 0;
+		this.frameIndex = 0;
+		this.startTime = (new Date()).getMilliseconds();
 	}
 
 	drawPlayer(elapsedTime) // printa o player na tela
@@ -59,9 +71,11 @@ class Player
 		}
 
 		this.width = currentFrame.width;
-		this.height = currentFrame.height;
+		//this.height = currentFrame.height;
 
-		image(currentFrame, this.x, this.y, this.width, this.height);
+		let ydiff = this.height - currentFrame.height;;
+
+		image(currentFrame, this.x, this.y + ydiff);
 		//rect(this.x, this.y, this.width, this.height);
 	}
 

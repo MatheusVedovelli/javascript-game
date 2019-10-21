@@ -6,8 +6,8 @@ class Game
         this.elapsedTime = 0;
         this.structures = [];
         this.maxX = 0;
-        this.delay = 1000;
-        this.points = 0;
+
+        this.reset();
 
         if(this.images.length <= 0)
         {
@@ -27,6 +27,14 @@ class Game
         this.elapsedTime = 0;
     }
 
+    reset()
+    {
+        this.structures.splice(0, this.structures.length);
+        this.points = 0;
+        this.delay = 1000;
+        player.reset();
+    }
+
     mainGame(elapsed)
     {
         if(elapsed < 0)
@@ -40,6 +48,13 @@ class Game
             {
                 rect(player.x, player.y, player.width, player.height);
                 rect(this.structures[i].x, this.structures[i].y, this.structures[i].width, this.structures[i].height);
+                startgame = 2;
+
+                textSize(40);
+                fill(10,10,10);
+                let texto = "Game Over! Clique para reiniciar.";
+                text(texto, (width - textWidth(texto))/2, height/2);
+
                 noLoop();
             }
 
@@ -54,10 +69,14 @@ class Game
             if(this.elapsedTime >= this.delay)
             {
                 this.points++;
-                if(this.structures[this.structures.length-1].x < width - 500)
+                if(this.points%10 == 0)
                 {
-                    this.spawn();   
+                    this.delay -= this.delay*0.05;
                 }
+                //if(this.structures[this.structures.length-1].x < width - 500)
+                //{
+                    this.spawn();   
+                //}
             }
         }
         else
@@ -83,6 +102,7 @@ class Game
 
         textSize(32);
         fill(10,10,10);
-        text("Pontos: " + this.points, width/2, 30);
+        let texto = "Pontos: " + this.points;
+        text(texto, (width - textWidth(texto))/2, 30);
     }
 }

@@ -2,6 +2,7 @@ let player;
 let game;
 let imgbg;
 let elapsed;
+let startgame = 0;
 
 function preload()
 {
@@ -21,6 +22,12 @@ function setup()
 
 function mousePressed()
 {
+	if(startgame != 1)
+	{
+		game.reset();
+		startgame = 1;
+		loop();	
+	}
 }
 
 function keyPressed()
@@ -36,6 +43,16 @@ function draw()
 	noFill();
 	image(imgbg, 0, 0, width, height);
 	rect(1, 0, width-1, height - 1);
+
+	if(startgame == 0)
+	{
+		textSize(40);
+		fill(10,10,10);
+		let texto = "Clique para começar";
+		text(texto, (width - textWidth(texto))/2, height/2);
+		noLoop();
+		return false;
+	}
 
 	let current = (new Date()).getMilliseconds();
 	player.drawPlayer(current - elapsed);
