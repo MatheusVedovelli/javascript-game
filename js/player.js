@@ -41,6 +41,7 @@ class Player
 	drawPlayer(elapsedTime) // printa o player na tela
 	{
 		noFill();
+		this.gravity();
 		//rect(this.x, this.y, this.width, this.height, 0, 25, 300, 485);
 
 
@@ -61,7 +62,7 @@ class Player
 		this.height = currentFrame.height;
 
 		image(currentFrame, this.x, this.y, this.width, this.height);
-		this.gravity();
+		//rect(this.x, this.y, this.width, this.height);
 	}
 
 	gravity() // aplica os efeitos de gravidade ao player

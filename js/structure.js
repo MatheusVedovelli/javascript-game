@@ -4,6 +4,8 @@ class Structure
     {
         this.x = width - image.width;
         this.y = height - image.height;
+        this.width = image.width;
+        this.height = image.height;
         this.img = image;
     }
 
