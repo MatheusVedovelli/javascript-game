@@ -4,6 +4,10 @@ let imgbg;
 let elapsed;
 let startgame = 0;
 
+function getTimeStamp() {
+	return performance.now();
+}
+
 function preload()
 {
 	player = new Player();
@@ -15,9 +19,9 @@ function preload()
 function setup()
 {
 	createCanvas(windowWidth-20, 600);
-	frameRate(30); // limita a 30fps
+	frameRate(60); // limita a 30fps
 	player.startPos();
-	elapsed = (new Date()).getMilliseconds();
+	elapsed = getTimeStamp();
 }
 
 function mousePressed()
@@ -34,7 +38,7 @@ function keyPressed()
 {
 	if(keyCode == UP_ARROW)
 	{
-		player.jump();	
+		player.jump(game.currentSpeed);	
 	}
 }
 
@@ -54,7 +58,7 @@ function draw()
 		return false;
 	}
 
-	let current = (new Date()).getMilliseconds();
+	let current = getTimeStamp();
 	player.drawPlayer(current - elapsed);
 	game.mainGame(current - elapsed);
 	game.drawGame();

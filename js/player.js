@@ -7,11 +7,12 @@ class Player
 		this.x = 50//(width - this.width) / 2;
 		this.y = (height - this.height);
 		this.yspeed = 0;
-		this.gforce = 4;
+		this.gforce = 0.6;
 		this.idle = [];
 		this.isMoving = 0;
 		this.frameIndex = 0;
 		this.startTime = (new Date()).getMilliseconds();
+		this.time = getTimeStamp();
 	}
 
 	startPos() // reseta a posição do personagem
@@ -29,13 +30,13 @@ class Player
 		}
 	}
 
-	jump() // pula
+	jump(speed) // pula
 	{
+		
 		if(this.y + this.height == height)
 		{
-			this.yspeed = -45;
+			this.yspeed = -15 - (speed/10);
 		}
-		else console.log(this.y+ this.height, height);
 	}
 
 	reset()
@@ -81,9 +82,15 @@ class Player
 
 	gravity() // aplica os efeitos de gravidade ao player
 	{
-		this.y += this.yspeed;
-		this.yspeed += this.gforce;
-		this.y += this.gforce;
+		let now = getTimeStamp();
+		let deltaTime = now - this.time;
+		this.time = now;
+		
+		let msPerFrame = 1000/60;
+		let framesElapsed = deltaTime/msPerFrame;
+
+		this.y += Math.round(this.yspeed * framesElapsed);
+		this.yspeed += this.gforce * framesElapsed;
 
 		this.y = constrain(this.y, 0, height- this.height);
 	}

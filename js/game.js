@@ -6,6 +6,7 @@ class Game
         this.elapsedTime = 0;
         this.structures = [];
         this.maxX = 0;
+        this.currentSpeed = 6;
 
         this.reset();
 
@@ -20,10 +21,10 @@ class Game
         }
     }
 
-    spawn()
+    spawn(currentSpeed)
     {
         let value = Math.floor(Math.random()*100)%this.images.length;
-        this.structures.push(new Structure(this.images[value]));
+        this.structures.push(new Structure(this.images[value], 0.6, currentSpeed));
         this.elapsedTime = 0;
     }
 
@@ -44,10 +45,11 @@ class Game
 
         for(let i = 0; i < this.structures.length; i++)
         {
-            if(collideRectRect(player.x, player.y, player.width, player.height, this.structures[i].x, this.structures[i].y, this.structures[i].width, this.structures[i].height))
+            if(collideRectRect(player.x, player.y, player.width, player.height, this.structures[i].x+10, this.structures[i].y+5, this.structures[i].width-30, this.structures[i].height-5))
             {
+                noFill();
                 rect(player.x, player.y, player.width, player.height);
-                rect(this.structures[i].x, this.structures[i].y, this.structures[i].width, this.structures[i].height);
+                rect(this.structures[i].x+10, this.structures[i].y+5, this.structures[i].width-30, this.structures[i].height-5);
                 startgame = 2;
 
                 textSize(40);
@@ -62,26 +64,30 @@ class Game
                 this.structures.splice(i, 1);
         }
 
-        
+        if(this.currentSpeed < 16)
+            this.currentSpeed += 0.001;
 
         if(this.structures.length > 0)
         {
             if(this.elapsedTime >= this.delay)
             {
                 this.points++;
-                if(this.points%10 == 0)
+                this.elapsedTime = 0;
+            }
+
+            let lastObstacle = this.structures[this.structures.length - 1];
+            if(lastObstacle && !lastObstacle.followingCreated)
+            {
+                if((lastObstacle.x + lastObstacle.width + lastObstacle.gap) < width)
                 {
-                    this.delay -= this.delay*0.05;
+                    this.spawn(this.currentSpeed);
+                    lastObstacle.followingCreated = true;
                 }
-                //if(this.structures[this.structures.length-1].x < width - 500)
-                //{
-                    this.spawn();   
-                //}
             }
         }
         else
         {
-            this.spawn();
+            this.spawn(this.currentSpeed);
         }
         return true;
     }
