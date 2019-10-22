@@ -1,13 +1,5 @@
 # javascript-game
-Primeira experiÃªncia criando um jogo em javascript
 
-Primeiro objetivo: criar um terreno simples e um personagem com colisão. (X)
+Jogo criado para a feira de ciÃªncias da ETEC de ItanhaÃ©m
 
-Movimento pelas setas, colisão com as paredes.
-
-Segundo objetivo: criar objetos para o personagem interagir (colisão, coletar, etc...) ()
-
-
-# Fontes:
-
-Sprite player: https://www.gameart2d.com/the-boy---free-sprites.html
+ApresentaÃ§Ã£o dia 23/10/2019
