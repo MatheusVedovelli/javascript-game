@@ -12,7 +12,7 @@ class Game
 
         if(this.images.length <= 0)
         {
-            for(let i = 0; i < 2; i++)
+            for(let i = 0; i < 4; i++)
             {
                 this.images[i] = loadImage("img/obstaculo/obj" + (i+1) + ".png");
                 if(this.images[i].width > this.maxX)
@@ -45,11 +45,11 @@ class Game
 
         for(let i = 0; i < this.structures.length; i++)
         {
-            if(collideRectRect(player.x, player.y, player.width, player.height, this.structures[i].x+10, this.structures[i].y+5, this.structures[i].width-30, this.structures[i].height-5))
+            if(collideRectRect(player.x, player.y, player.width, player.height, this.structures[i].x+10, this.structures[i].y+15, this.structures[i].width-30, this.structures[i].height-15))
             {
                 noFill();
                 rect(player.x, player.y, player.width, player.height);
-                rect(this.structures[i].x+10, this.structures[i].y+5, this.structures[i].width-30, this.structures[i].height-5);
+                rect(this.structures[i].x+10, this.structures[i].y+15, this.structures[i].width-30, this.structures[i].height-15);
                 startgame = 2;
 
                 textSize(40);
