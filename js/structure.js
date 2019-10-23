@@ -4,7 +4,7 @@ function getRandomNum(min, max) {
 
 class Structure
 {
-    constructor(image, gapCoefficient, currentSpeed)
+    constructor(image, gapCoefficient, currentSpeed) // cria o obstaculo
     {
         this.x = width - image.width;
         this.y = height - image.height;
@@ -17,20 +17,20 @@ class Structure
         this.gap = this.getGap(this.gapCoefficient, this.xspeed);
     }
 
-    getGap(gapCoefficient, speed)
+    getGap(gapCoefficient, speed) // define a diferença entre um e outro
     {
-        var minGap = Math.round(this.width * (speed/2) +
-            100 * gapCoefficient);
+        var minGap = Math.round((this.width * ((speed > 10 ? 10 : speed)/2) +
+        300) * gapCoefficient);
         var maxGap = Math.round(minGap * 1.5);
         return getRandomNum(minGap, maxGap);
     }
 
-    main()
+    main() // movimenta o obstaculo
     {
         this.x -= this.xspeed;
     }
 
-    drawStructure()
+    drawStructure() // desenha o obstaculo
     {
         image(this.img, this.x, this.y);
     }

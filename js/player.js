@@ -39,7 +39,7 @@ class Player
 		}
 	}
 
-	reset()
+	reset() // reinicia
 	{
 		this.width = 104;
 		this.height = 120;
