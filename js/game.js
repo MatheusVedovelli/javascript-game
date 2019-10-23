@@ -46,11 +46,11 @@ class Game
 
         for(let i = 0; i < this.structures.length; i++) // varre todos os obstaculos pra fazer a colisão e deletar os que ja sairam da tela
         {
-            if(collideRectRect(player.x+10, player.y, player.width-50, player.height, this.structures[i].x+10, this.structures[i].y+5, this.structures[i].width-30, this.structures[i].height-5))
+            if(collideRectRect(player.x+10, player.y, player.width-50, player.height, this.structures[i].x+10, this.structures[i].y+(this.structures[i].height*0.2), this.structures[i].width-30, this.structures[i].height-5))
             {
                 noFill();
                 rect(player.x+10, player.y, player.width-50, player.height);
-                rect(this.structures[i].x+10, this.structures[i].y+5, this.structures[i].width-30, this.structures[i].height-5);
+                rect(this.structures[i].x+10, this.structures[i].y+(this.structures[i].height*0.2), this.structures[i].width-30, this.structures[i].height-5);
                 startgame = 2;
 
                 textSize(40);

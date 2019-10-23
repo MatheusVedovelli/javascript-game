@@ -13,7 +13,7 @@ function preload()
 	player = new Player();
 	game = new Game();
 	player.imgLoad();
-	imgbg = loadImage("img/background.png");
+	imgbg = loadImage("img/background.jpg");
 }
 
 function setup()
@@ -45,7 +45,7 @@ function keyPressed()
 function draw()
 {
 	noFill();
-	image(imgbg, 0, 0, width, height);
+	image(imgbg, 0, 0, imgbg.width < width ? width : imgbg.width, height);
 	rect(1, 0, width-1, height - 1);
 
 	if(startgame == 0)
