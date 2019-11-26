@@ -1,6 +1,6 @@
 class Player
 {
-	constructor() // cria o player
+	constructor(brain) // cria o player
 	{
 		this.width = 104;
 		this.height = 120;
@@ -13,6 +13,18 @@ class Player
 		this.frameIndex = 0;
 		this.startTime = (new Date()).getMilliseconds();
 		this.time = getTimeStamp();
+
+		if(brain)
+			this.brain = brain;
+		else
+		{
+			this.brain = new NeuralNetwork({
+				input: 6,
+				hidden: 4,
+				output: 2
+			});
+			console.log(this.brain);
+		}
 	}
 
 	startPos() // reseta a posição do personagem
@@ -32,7 +44,6 @@ class Player
 
 	jump(speed) // pula
 	{
-		
 		if(this.y + this.height == height)
 		{
 			this.yspeed = -15 - (speed/10);
@@ -49,6 +60,14 @@ class Player
 		this.isMoving = 0;
 		this.frameIndex = 0;
 		this.startTime = (new Date()).getMilliseconds();
+	}
+
+	think(structure)
+	{
+		let inputs = [this.x/width, this.y/height, structure.x/width, (height-structure.height)/height, this.yspeed, structure.xspeed];
+		let guess = this.brain.predict(inputs).dataSync();
+		if(guess[0] > guess[1])
+			this.jump(game.currentSpeed);
 	}
 
 	drawPlayer(elapsedTime) // printa o player na tela
@@ -76,7 +95,9 @@ class Player
 
 		let ydiff = this.height - currentFrame.height;;
 
+		tint(255, 100);
 		image(currentFrame, this.x, this.y + ydiff);
+		noTint();
 		//rect(this.x, this.y, this.width, this.height);
 	}
 

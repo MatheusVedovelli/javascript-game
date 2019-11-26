@@ -44,6 +44,24 @@ class Game
 
         this.elapsedTime += elapsed;
 
+        let struct = null;
+        let mindist = Infinity;
+        let playerx = 50;
+        for(let i = 0; i < this.structures.length; i++)
+        {
+            let dist = (this.structures[i].x + this.structures[i].width) - playerx;
+            if(dist < mindist)
+            {
+                mindist = dist;
+                struct = this.structures[i];
+            }
+        }
+
+        if(struct)
+        {
+            player.think(struct);
+        }
+
         for(let i = 0; i < this.structures.length; i++) // varre todos os obstaculos pra fazer a colisão e deletar os que ja sairam da tela
         {
             if(collideRectRect(player.x+10, player.y, player.width-50, player.height, this.structures[i].x+10, this.structures[i].y+(this.structures[i].height*0.2), this.structures[i].width-30, this.structures[i].height-5))

@@ -2,7 +2,7 @@ let player;
 let game;
 let imgbg;
 let elapsed;
-let startgame = 0;
+let startgame = 1;
 
 function getTimeStamp() {
 	return performance.now();
@@ -19,12 +19,13 @@ function preload()
 function setup()
 {
 	createCanvas(windowWidth-20, 600);
-	frameRate(60); // limita a 30fps
+	tf.setBackend("cpu");
+	frameRate(60);
 	player.startPos();
 	elapsed = getTimeStamp();
 }
 
-function mousePressed()
+/* function mousePressed()
 {
 	if(startgame != 1)
 	{
@@ -32,15 +33,15 @@ function mousePressed()
 		startgame = 1;
 		loop();	
 	}
-}
+} */
 
-function keyPressed()
+/* function keyPressed()
 {
 	if(keyCode == UP_ARROW)
 	{
 		player.jump(game.currentSpeed);	
 	}
-}
+} */
 
 function draw()
 {
